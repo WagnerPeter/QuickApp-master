@@ -1,5 +1,5 @@
 {
-  "name": "quickapp",
+  "name": "dungeon-admin",
   "version": "2.5.3",
   "description": "Angular5 (with ASP.NET Core) startup project template with complete login, user and role management. Plus other useful services for Quick Application Development",
   "author": {

@@ -25,10 +25,22 @@ namespace DAL
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
 
+        public DbSet<Employee> Employees { get; set; }
+
+        public DbSet<Day> DayOverviews { get; set; }
+        public DbSet<DayEvaluation> DayEvaluations { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
+
+        public DbSet<Event> Events { get; set; }
+        public DbSet<EventEvaluation> EventEvaluations { get; set; }
+        public DbSet<EventFlag> EventFlags { get; set; }
+        public DbSet<EventTask> EventTasks { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions options) : base(options)
-        { }
+        {
+            Database.Migrate();
+        }
 
 
         protected override void OnModelCreating(ModelBuilder builder)

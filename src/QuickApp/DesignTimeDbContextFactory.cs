@@ -24,13 +24,14 @@ namespace QuickApp
 
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .AddJsonFile("appsettings.Development.json", optional: true)
+                .AddEnvironmentVariables()
+                //.AddJsonFile("appsettings.json")
+                //.AddJsonFile("appsettings.Development.json", optional: true)
                 .Build();
 
             var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
 
-            builder.UseSqlServer(configuration["ConnectionStrings:AzureSQLConnection"], b => b.MigrationsAssembly("QuickApp"));
+            builder.UseSqlServer(configuration["ConnectionStrings:AzureSQLConnection"], b => b.MigrationsAssembly("DungeonAdmin"));
             builder.UseOpenIddict();
 
             return new ApplicationDbContext(builder.Options);
