@@ -12,9 +12,10 @@ using System;
 namespace QuickApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180323154750_ReworkedRelations2")]
+    partial class ReworkedRelations2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -234,19 +235,6 @@ namespace QuickApp.Migrations
                     b.ToTable("DayEvaluations");
                 });
 
-            modelBuilder.Entity("DAL.Models.DayEvaluationRating", b =>
-                {
-                    b.Property<int>("DayEvaluationId");
-
-                    b.Property<int>("RatingId");
-
-                    b.HasKey("DayEvaluationId", "RatingId");
-
-                    b.HasIndex("RatingId");
-
-                    b.ToTable("DayEvaluationRating");
-                });
-
             modelBuilder.Entity("DAL.Models.Employee", b =>
                 {
                     b.Property<int>("Id")
@@ -263,6 +251,8 @@ namespace QuickApp.Migrations
 
                     b.Property<string>("Email");
 
+                    b.Property<int?>("EventId");
+
                     b.Property<string>("Name");
 
                     b.Property<string>("PhoneNumber");
@@ -278,22 +268,11 @@ namespace QuickApp.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EventId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Employees");
-                });
-
-            modelBuilder.Entity("DAL.Models.EmployeeDay", b =>
-                {
-                    b.Property<int>("EmployeeId");
-
-                    b.Property<int>("DayId");
-
-                    b.HasKey("EmployeeId", "DayId");
-
-                    b.HasIndex("DayId");
-
-                    b.ToTable("EmployeeDay");
                 });
 
             modelBuilder.Entity("DAL.Models.Event", b =>
@@ -322,32 +301,6 @@ namespace QuickApp.Migrations
                     b.ToTable("Events");
                 });
 
-            modelBuilder.Entity("DAL.Models.EventDay", b =>
-                {
-                    b.Property<int>("EventId");
-
-                    b.Property<int>("DayId");
-
-                    b.HasKey("EventId", "DayId");
-
-                    b.HasIndex("DayId");
-
-                    b.ToTable("EventDay");
-                });
-
-            modelBuilder.Entity("DAL.Models.EventEmployee", b =>
-                {
-                    b.Property<int>("EventId");
-
-                    b.Property<int>("EmployeeId");
-
-                    b.HasKey("EventId", "EmployeeId");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.ToTable("EventEmployee");
-                });
-
             modelBuilder.Entity("DAL.Models.EventEvaluation", b =>
                 {
                     b.Property<int>("Id")
@@ -370,45 +323,6 @@ namespace QuickApp.Migrations
                     b.HasIndex("EventId");
 
                     b.ToTable("EventEvaluations");
-                });
-
-            modelBuilder.Entity("DAL.Models.EventEvaluationRating", b =>
-                {
-                    b.Property<int>("EventEvaluationId");
-
-                    b.Property<int>("RatingId");
-
-                    b.HasKey("EventEvaluationId", "RatingId");
-
-                    b.HasIndex("RatingId");
-
-                    b.ToTable("EventEvaluationRating");
-                });
-
-            modelBuilder.Entity("DAL.Models.EventEventFlag", b =>
-                {
-                    b.Property<int>("EventId");
-
-                    b.Property<int>("EventFlagId");
-
-                    b.HasKey("EventId", "EventFlagId");
-
-                    b.HasIndex("EventFlagId");
-
-                    b.ToTable("EventEventFlag");
-                });
-
-            modelBuilder.Entity("DAL.Models.EventEventTask", b =>
-                {
-                    b.Property<int>("EventId");
-
-                    b.Property<int>("EventTaskId");
-
-                    b.HasKey("EventId", "EventTaskId");
-
-                    b.HasIndex("EventTaskId");
-
-                    b.ToTable("EventEventTask");
                 });
 
             modelBuilder.Entity("DAL.Models.EventFlag", b =>
@@ -875,63 +789,15 @@ namespace QuickApp.Migrations
                         .HasForeignKey("EmployeeId");
                 });
 
-            modelBuilder.Entity("DAL.Models.DayEvaluationRating", b =>
-                {
-                    b.HasOne("DAL.Models.DayEvaluation", "DayEvaluation")
-                        .WithMany("DayEvaluationRatings")
-                        .HasForeignKey("DayEvaluationId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("DAL.Models.Rating", "Rating")
-                        .WithMany("DayEvaluationRatings")
-                        .HasForeignKey("RatingId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("DAL.Models.Employee", b =>
                 {
+                    b.HasOne("DAL.Models.Event")
+                        .WithMany("EventManagers")
+                        .HasForeignKey("EventId");
+
                     b.HasOne("DAL.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("DAL.Models.EmployeeDay", b =>
-                {
-                    b.HasOne("DAL.Models.Day", "Day")
-                        .WithMany("EmployeeDays")
-                        .HasForeignKey("DayId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("DAL.Models.Employee", "Employee")
-                        .WithMany("EmployeeDays")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("DAL.Models.EventDay", b =>
-                {
-                    b.HasOne("DAL.Models.Day", "Day")
-                        .WithMany("EventDays")
-                        .HasForeignKey("DayId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("DAL.Models.Event", "Event")
-                        .WithMany("EventDays")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("DAL.Models.EventEmployee", b =>
-                {
-                    b.HasOne("DAL.Models.Employee", "Employee")
-                        .WithMany("EventEmployees")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("DAL.Models.Event", "Event")
-                        .WithMany("EventEmployees")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DAL.Models.EventEvaluation", b =>
@@ -939,45 +805,6 @@ namespace QuickApp.Migrations
                     b.HasOne("DAL.Models.Event", "Event")
                         .WithMany()
                         .HasForeignKey("EventId");
-                });
-
-            modelBuilder.Entity("DAL.Models.EventEvaluationRating", b =>
-                {
-                    b.HasOne("DAL.Models.EventEvaluation", "EventEvaluation")
-                        .WithMany("EventEvaluationRatings")
-                        .HasForeignKey("EventEvaluationId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("DAL.Models.Rating", "Rating")
-                        .WithMany("EventEvaluationRatings")
-                        .HasForeignKey("RatingId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("DAL.Models.EventEventFlag", b =>
-                {
-                    b.HasOne("DAL.Models.EventFlag", "EventFlag")
-                        .WithMany("EventEventFlags")
-                        .HasForeignKey("EventFlagId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("DAL.Models.Event", "Event")
-                        .WithMany("EventEventFlags")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("DAL.Models.EventEventTask", b =>
-                {
-                    b.HasOne("DAL.Models.Event", "Event")
-                        .WithMany("EventEventTasks")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("DAL.Models.EventTask", "EventTask")
-                        .WithMany("EventEventTasks")
-                        .HasForeignKey("EventTaskId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DAL.Models.Order", b =>

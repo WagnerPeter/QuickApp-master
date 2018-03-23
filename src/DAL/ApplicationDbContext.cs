@@ -36,6 +36,16 @@ namespace DAL
         public DbSet<EventFlag> EventFlags { get; set; }
         public DbSet<EventTask> EventTasks { get; set; }
 
+        #region [join tables]
+        //public DbSet<DayEvaluationRating> DayEvaluationRatings { get; set; }
+        //public DbSet<EmployeeDay> EmployeeDays { get; set; }
+        //public DbSet<EventDay> EventDays { get; set; }
+        //public DbSet<EventEmployee> EventEmployees { get; set; }
+        //public DbSet<EventEvaluationRating> EventEvaluationRatings { get; set; }
+        //public DbSet<EventEventFlag> EventEventFlags { get; set; }
+        //public DbSet<EventEventTask> EventEventTasks { get; set; }
+        #endregion
+
 
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
@@ -75,10 +85,90 @@ namespace DAL
             builder.Entity<Order>().ToTable($"App{nameof(this.Orders)}");
 
             builder.Entity<OrderDetail>().ToTable($"App{nameof(this.OrderDetails)}");
+
+            #region [joinTables]
+            builder.Entity<DayEvaluationRating>()
+                .HasKey(d => new { d.DayEvaluationId, d.RatingId });
+
+            builder.Entity<DayEvaluationRating>()
+                .HasOne(d => d.Rating)
+                .WithMany("DayEvaluationRatings");
+
+            builder.Entity<DayEvaluationRating>()
+                .HasOne(d => d.DayEvaluation)
+                .WithMany("DayEvaluationRatings");
+
+            builder.Entity<EmployeeDay>()
+                .HasKey(d => new { d.EmployeeId, d.DayId });
+
+            builder.Entity<EmployeeDay>()
+                .HasOne(d => d.Employee)
+                .WithMany("EmployeeDays");
+
+            builder.Entity<EmployeeDay>()
+                .HasOne(d => d.Day)
+                .WithMany("EmployeeDays");
+
+            builder.Entity<EventDay>()
+                .HasKey(d => new { d.EventId, d.DayId });
+
+            builder.Entity<EventDay>()
+                .HasOne(d => d.Event)
+                .WithMany("EventDays");
+
+            builder.Entity<EventDay>()
+                .HasOne(d => d.Day)
+                .WithMany("EventDays");
+
+            builder.Entity<EventEmployee>()
+                .HasKey(d => new { d.EventId, d.EmployeeId });
+
+            builder.Entity<EventEmployee>()
+                .HasOne(d => d.Event)
+                .WithMany("EventEmployees");
+
+            builder.Entity<EventEmployee>()
+                .HasOne(d => d.Employee)
+                .WithMany("EventEmployees");
+
+            builder.Entity<EventEvaluationRating>()
+                .HasKey(d => new { d.EventEvaluationId, d.RatingId });
+
+            builder.Entity<EventEvaluationRating>()
+                .HasOne(d => d.EventEvaluation)
+                .WithMany("EventEvaluationRatings");
+
+            builder.Entity<EventEvaluationRating>()
+                .HasOne(d => d.Rating)
+                .WithMany("EventEvaluationRatings");
+
+            builder.Entity<EventEventFlag>()
+                .HasKey(d => new { d.EventId, d.EventFlagId });
+
+            builder.Entity<EventEventFlag>()
+                .HasOne(d => d.EventFlag)
+                .WithMany("EventEventFlags");
+
+            builder.Entity<EventEventFlag>()
+                .HasOne(d => d.Event)
+                .WithMany("EventEventFlags");
+
+            builder.Entity<EventEvaluationRating>()
+                .HasOne(d => d.Rating)
+                .WithMany("EventEvaluationRatings");
+
+            builder.Entity<EventEventTask>()
+                .HasKey(d => new { d.EventId, d.EventTaskId });
+
+            builder.Entity<EventEventTask>()
+                .HasOne(d => d.EventTask)
+                .WithMany("EventEventTasks");
+
+            builder.Entity<EventEventTask>()
+                .HasOne(d => d.Event)
+                .WithMany("EventEventTasks");
+            #endregion
         }
-
-
-
 
         public override int SaveChanges()
         {

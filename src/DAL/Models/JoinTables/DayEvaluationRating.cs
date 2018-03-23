@@ -12,7 +12,7 @@ namespace DAL.Models
             set => Rating = value;
         }
 
-        public int EventEvaluationId { get; set; }
+        public int DayEvaluationId { get; set; }
         public DayEvaluation DayEvaluation { get; set; }
         DayEvaluation IJoinEntity<DayEvaluation>.Navigation
         {

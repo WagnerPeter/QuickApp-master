@@ -7,7 +7,11 @@ namespace DAL.Models
 {
     public class Rating : AuditableEntity
     {
-        public Rating() => EventEvaluations = new JoinCollectionFacade<EventEvaluation, Rating, EventEvaluationRating>(this, EventEvaluationRatings);
+        public Rating()
+        {
+            EventEvaluations = new JoinCollectionFacade<EventEvaluation, Rating, EventEvaluationRating>(this, EventEvaluationRatings);
+            DayEvaluations = new JoinCollectionFacade<DayEvaluation, Rating, DayEvaluationRating>(this, DayEvaluationRatings);
+        }
 
         public int Id { get; set; }
         public string Name { get; set; }
@@ -16,6 +20,7 @@ namespace DAL.Models
         public float Score { get; set; }
 
         private ICollection<EventEvaluationRating> EventEvaluationRatings { get; } = new List<EventEvaluationRating>();
+        private ICollection<DayEvaluationRating> DayEvaluationRatings { get; } = new List<DayEvaluationRating>();
 
         [NotMapped]
         public ICollection<EventEvaluation> EventEvaluations { get; set; }
