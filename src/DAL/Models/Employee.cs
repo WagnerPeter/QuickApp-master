@@ -19,6 +19,8 @@ namespace DAL.Models
         public string Name { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
+        public bool IsEnabled { get; set; }
+
         public float Salary { get; set; }
 
         public DateTime DateCreated { get; set; }

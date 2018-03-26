@@ -14,6 +14,8 @@ namespace DAL.Models
             get => Employee;
             set => Employee = value;
         }
+        public DateTime PlannedWorkFrom { get; set; }
+        public DateTime PlannedWorkTo { get; set; }
 
         public int DayId { get; set; }
         public Day Day { get; set; }

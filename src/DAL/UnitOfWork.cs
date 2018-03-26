@@ -20,7 +20,7 @@ namespace DAL
         ICustomerRepository _customers;
         IProductRepository _products;
         IOrdersRepository _orders;
-
+        IEmployeeRepository _employees;
 
 
         public UnitOfWork(ApplicationDbContext context)
@@ -67,8 +67,16 @@ namespace DAL
             }
         }
 
+        public IEmployeeRepository Employees
+        {
+            get
+            {
+                if (_employees == null)
+                    _employees = new EmployeeRepository(_context);
 
-
+                return _employees;
+            }
+        }
 
         public int SaveChanges()
         {

@@ -17,7 +17,7 @@ namespace DAL
         ICustomerRepository Customers { get; }
         IProductRepository Products { get; }
         IOrdersRepository Orders { get; }
-
+        IEmployeeRepository Employees { get;  }
 
         int SaveChanges();
     }

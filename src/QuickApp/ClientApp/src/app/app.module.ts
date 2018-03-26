@@ -19,6 +19,7 @@ import { PopoverModule } from "ngx-bootstrap/popover";
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ChartsModule } from 'ng2-charts';
+import { MatTableModule } from "@angular/material";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppErrorHandler } from './app-error.handler';
@@ -62,8 +63,9 @@ import { UserPreferencesComponent } from "./components/controls/user-preferences
 import { UsersManagementComponent } from "./components/controls/users-management.component";
 import { RolesManagementComponent } from "./components/controls/roles-management.component";
 import { RoleEditorComponent } from "./components/controls/role-editor.component";
-
-
+import { EmployeeSchedulingComponent } from './components/employee-scheduling/employee-scheduling.component';
+import { EmployeeComponent } from './components/employee/employee.component';
+import { EmployeeSchedulingService } from "./services/employee-scheduling-endpoint.service";
 
 
 @NgModule({
@@ -86,7 +88,8 @@ import { RoleEditorComponent } from "./components/controls/role-editor.component
         BsDropdownModule.forRoot(),
         CarouselModule.forRoot(),
         ModalModule.forRoot(),
-        ChartsModule
+        ChartsModule,
+        MatTableModule 
     ],
     declarations: [
         AppComponent,
@@ -110,7 +113,9 @@ import { RoleEditorComponent } from "./components/controls/role-editor.component
         BootstrapToggleDirective,
         BootstrapSelectDirective,
         BootstrapDatepickerDirective,
-        GroupByPipe
+        GroupByPipe,
+        EmployeeSchedulingComponent,
+        EmployeeComponent
     ],
     providers: [
         { provide: 'BASE_URL', useFactory: getBaseUrl },
@@ -124,7 +129,8 @@ import { RoleEditorComponent } from "./components/controls/role-editor.component
         AccountService,
         AccountEndpoint,
         LocalStoreManager,
-        EndpointFactory
+        EndpointFactory,
+        EmployeeSchedulingService
     ],
     bootstrap: [AppComponent]
 })

@@ -524,16 +524,6 @@ namespace QuickApp.Controllers
         }
 
 
-
-
-
-
-
-
-
-
-
-
         private async Task<UserViewModel> GetUserViewModelHelper(string userId)
         {
             var userAndRoles = await _accountManager.GetUserAndRolesAsync(userId);
