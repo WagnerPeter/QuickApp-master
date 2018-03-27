@@ -18,6 +18,7 @@ using QuickApp.Authorization;
 using QuickApp.Helpers;
 using Microsoft.AspNetCore.JsonPatch;
 using DAL.Core;
+using DAL;
 
 namespace QuickApp.Controllers
 {
@@ -27,13 +28,16 @@ namespace QuickApp.Controllers
     {
         private readonly IAccountManager _accountManager;
         private readonly IAuthorizationService _authorizationService;
+        private readonly IUnitOfWork _unitOfWork;
+
         private const string GetUserByIdActionName = "GetUserById";
         private const string GetRoleByIdActionName = "GetRoleById";
 
-        public AccountController(IAccountManager accountManager, IAuthorizationService authorizationService)
+        public AccountController(IAccountManager accountManager, IAuthorizationService authorizationService, IUnitOfWork unitOfWork)
         {
             _accountManager = accountManager;
             _authorizationService = authorizationService;
+            _unitOfWork = unitOfWork;
         }
 
 
@@ -179,6 +183,12 @@ namespace QuickApp.Controllers
                                 result = await _accountManager.ResetPasswordAsync(appUser, user.NewPassword);
                         }
 
+                        Employee employee = Mapper.Map<Employee>(user.Employee);
+
+                        employee.User = appUser;
+                        _unitOfWork.Employees.Add(employee);
+                        var empResult = _unitOfWork.SaveChanges();
+
                         if (result.Item1)
                             return NoContent();
                     }
@@ -232,7 +242,6 @@ namespace QuickApp.Controllers
                     if (result.Item1)
                         return NoContent();
 
-
                     AddErrors(result.Item2);
                 }
             }
@@ -260,10 +269,24 @@ namespace QuickApp.Controllers
                 ApplicationUser appUser = Mapper.Map<ApplicationUser>(user);
 
                 var result = await _accountManager.CreateUserAsync(appUser, user.Roles, user.NewPassword);
+
                 if (result.Item1)
                 {
                     UserViewModel userVM = await GetUserViewModelHelper(appUser.Id);
-                    return CreatedAtAction(GetUserByIdActionName, new { id = userVM.Id }, userVM);
+
+                    Employee employee = Mapper.Map<Employee>(user.Employee);
+                    if(employee == null)
+                    {
+                        employee = new Employee();
+                    }
+                    employee.User = appUser;
+                    _unitOfWork.Employees.Add(employee);
+                    var empResult = _unitOfWork.SaveChanges();
+
+                    if(empResult != 0)
+                    {
+                        return CreatedAtAction(GetUserByIdActionName, new { id = userVM.Id }, userVM);
+                    }
                 }
 
                 AddErrors(result.Item2);

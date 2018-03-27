@@ -22,32 +22,8 @@ namespace DAL.Repositories
 
         public IEnumerable<Employee> GetAllActiveEmployees()
         {
-            return _appContext.Employees.Where(x => x.IsEnabled).ToList();
-        }
-
-        public Employee GetEmployee(int id)
-        {
-            return _appContext.Employees.FirstOrDefault(x => x.Id == id);
-        }
-
-        public int AddEmployee(Employee emp)
-        {
-            _appContext.Employees.Add(emp);
-            return _appContext.SaveChanges();
-        }
-
-        public int RemoveEmployee(int id)
-        {
-            var emp = _appContext.Employees.FirstOrDefault(x => x.Id == id);
-            _appContext.Employees.Remove(emp);
-            return _appContext.SaveChanges();
-        }
-
-        public int UpdateEmployee(Employee emp)
-        {
-            _appContext.Employees.Update(emp);
-            return _appContext.SaveChanges();
-        }
+            return _appContext.Employees.Where(x => x.User.IsEnabled).ToList();
+        }      
 
         private ApplicationDbContext _appContext => (ApplicationDbContext)_context;
     }

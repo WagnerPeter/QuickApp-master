@@ -12,9 +12,10 @@ using System;
 namespace QuickApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180327084216_EmployeeWithSalaries")]
+    partial class EmployeeWithSalaries
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -257,11 +258,25 @@ namespace QuickApp.Migrations
 
                     b.Property<DateTime>("CreatedDate");
 
+                    b.Property<DateTime>("DateCreated");
+
+                    b.Property<DateTime>("DateModified");
+
+                    b.Property<string>("Email");
+
+                    b.Property<bool>("IsEnabled");
+
                     b.Property<bool>("IsStudent");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("PhoneNumber");
 
                     b.Property<DateTime>("RegisteredFrom");
 
                     b.Property<DateTime>("RegisteredTo");
+
+                    b.Property<float>("Salary");
 
                     b.Property<string>("UpdatedBy")
                         .HasMaxLength(256);

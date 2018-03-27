@@ -1,13 +1,8 @@
+import { User } from "./user.model";
+
 export class Employee {
-    id: number;
-    name: string;
-
-    plannedShiftStart: Date;
-
-    shiftStart: Date;
-    shiftEnd: Date;
-
-    amountConsumed: number;
-    role: string;
-    phoneNumber: string;
+    isStudent: boolean;
+    user: User;
+    registeredFrom: Date;
+    registeredTo: Date;
 }

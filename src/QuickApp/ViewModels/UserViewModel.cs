@@ -35,7 +35,12 @@ namespace QuickApp.ViewModels
 
         public bool IsEnabled { get; set; }
 
+        public bool IsStudent { get; set; }
+
         public bool IsLockedOut { get; set; }
+
+        public Employee Employee { get; set; }
+
 
         [MinimumCount(1, ErrorMessage = "Roles cannot be empty")]
         public string[] Roles { get; set; }

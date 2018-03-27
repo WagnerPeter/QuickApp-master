@@ -26,6 +26,7 @@ namespace DAL
         public DbSet<OrderDetail> OrderDetails { get; set; }
 
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<EmployeeSalary> Salaries { get; set; }
 
         public DbSet<Day> DayOverviews { get; set; }
         public DbSet<DayEvaluation> DayEvaluations { get; set; }

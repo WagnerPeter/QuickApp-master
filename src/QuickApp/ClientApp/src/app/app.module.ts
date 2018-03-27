@@ -5,7 +5,7 @@
 
 import { NgModule, ErrorHandler } from "@angular/core";
 import { RouterModule } from "@angular/router";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
@@ -19,7 +19,8 @@ import { PopoverModule } from "ngx-bootstrap/popover";
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ChartsModule } from 'ng2-charts';
-import { MatTableModule } from "@angular/material";
+import { MatTableModule, MatDatepickerModule, MatNativeDateModule, MatFormFieldModule, MatInputModule } from "@angular/material";
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppErrorHandler } from './app-error.handler';
@@ -74,6 +75,7 @@ import { EmployeeSchedulingService } from "./services/employee-scheduling-endpoi
         BrowserAnimationsModule,
         HttpClientModule,
         FormsModule,
+        ReactiveFormsModule,
         AppRoutingModule,
         TranslateModule.forRoot({
             loader: {
@@ -89,7 +91,12 @@ import { EmployeeSchedulingService } from "./services/employee-scheduling-endpoi
         CarouselModule.forRoot(),
         ModalModule.forRoot(),
         ChartsModule,
-        MatTableModule 
+        MatInputModule,
+        MatFormFieldModule,
+        MatTableModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatMomentDateModule
     ],
     declarations: [
         AppComponent,
@@ -115,7 +122,8 @@ import { EmployeeSchedulingService } from "./services/employee-scheduling-endpoi
         BootstrapDatepickerDirective,
         GroupByPipe,
         EmployeeSchedulingComponent,
-        EmployeeComponent
+        EmployeeComponent,
+        
     ],
     providers: [
         { provide: 'BASE_URL', useFactory: getBaseUrl },

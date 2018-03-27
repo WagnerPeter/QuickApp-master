@@ -16,15 +16,10 @@ namespace DAL.Models
 
         [Key]
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string PhoneNumber { get; set; }
-        public bool IsEnabled { get; set; }
+        public bool IsStudent { get; set; }
+        public DateTime RegisteredFrom { get; set; }
+        public DateTime RegisteredTo { get; set; }
 
-        public float Salary { get; set; }
-
-        public DateTime DateCreated { get; set; }
-        public DateTime DateModified { get; set; }
         public ApplicationUser User { get; set; }
 
         private ICollection<EmployeeDay> EmployeeDays { get; } = new List<EmployeeDay>();
@@ -34,6 +29,8 @@ namespace DAL.Models
         public ICollection<Day> Days { get; set; }
         [NotMapped]
         public ICollection<Event> Events { get; set; }
+
+        public ICollection<EmployeeSalary> Salaries { get; set; }
 
     }
 }
