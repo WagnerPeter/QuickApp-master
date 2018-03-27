@@ -19,7 +19,7 @@ import { PopoverModule } from "ngx-bootstrap/popover";
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ChartsModule } from 'ng2-charts';
-import { MatTableModule, MatDatepickerModule, MatNativeDateModule, MatFormFieldModule, MatInputModule } from "@angular/material";
+import { MatTableModule, MatDatepickerModule, MatNativeDateModule, MatFormFieldModule, MatInputModule, MatSelectModule } from "@angular/material";
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -96,7 +96,8 @@ import { EmployeeSchedulingService } from "./services/employee-scheduling-endpoi
         MatTableModule,
         MatDatepickerModule,
         MatNativeDateModule,
-        MatMomentDateModule
+        MatMomentDateModule,
+        MatSelectModule
     ],
     declarations: [
         AppComponent,
